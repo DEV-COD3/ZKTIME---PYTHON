@@ -7,7 +7,7 @@ IP = '192.168.100.138'
 PORT = 8080
 PASSWORD = 111111  # contraseña de comunicacion del hullero en este caso es 111111
  
-def conexionHullero():
+def conexion_hullero():
     zk = ZK(IP, port=PORT, timeout=10, password=PASSWORD)
     try:
         conn = zk.connect()
@@ -31,7 +31,7 @@ def conexionHullero():
         print("Error manito:", e)
 
 # funcion para insertar data en la bd
-def inserRegistroHullero(data):
+def insertar_registros(data):
     if data == None:
         return print("No hay data para insertar")
     try:
@@ -57,8 +57,8 @@ def inserRegistroHullero(data):
         conn.close()
 
 def main():
-    registros = conexionHullero()   
-    inserRegistroHullero(registros)
+    registros = conexion_hullero()   
+    insertar_registros(registros)
 
 if __name__ == "__main__":
     main()
