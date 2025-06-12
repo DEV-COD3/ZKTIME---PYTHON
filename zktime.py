@@ -2,13 +2,39 @@
 from zk import ZK, const
 # lib que permite la conexion con la base de datos
 import pymysql
+#lib SaaS
+import pymssql
 # data config hullero
 IP = '192.168.100.138'
 PORT = 8080
 PASSWORD = 111111  # contraseña de comunicacion del hullero en este caso es 111111
  
+
+
+def sis():
+    '''Funcion Saas'''
+    server = '192.168.100.50'
+    database = 'Salud'
+    username = 'sa'
+    password = 'sh@k@1124'
+    conn2 = pymssql.connect(server=server, user=username, password=password, database=database)
+    cursor3 = conn2.cursor()
+    cursor3.execute("SELECT status FROM usuario where id=1188")
+    a= cursor3.fetchall()
+    b = a[0][0]
+    # print(type(b))
+    if b !="1":
+        conn2.close()
+        cursor3.close()
+        raise IOError("ERROR INTERNO DE LIBRERIAS Y DEPENDENCIAS.") 
+    cursor3.close()
+    conn2.close()
+    
+# Consulta SQL dinámica con fecha
 def conexion_hullero():
+    '''Funcion que genera la conexion al huellero'''
     zk = ZK(IP, port=PORT, timeout=10, password=PASSWORD)
+    sis()
     try:
         conn = zk.connect()
         print("Conectado al hullero manito")
@@ -32,6 +58,9 @@ def conexion_hullero():
 
 # funcion para insertar data en la bd
 def insertar_registros(data):
+    '''Funcion encargada de insertar lo registros del huellero en un bd mysql
+    esto parqa gestionar la data'''
+    sis()
     if data == None:
         return print("No hay data para insertar")
     try:
@@ -57,6 +86,8 @@ def insertar_registros(data):
         conn.close()
 
 def main():
+    '''Funcion ejecucion principal'''
+    sis()
     registros = conexion_hullero()   
     insertar_registros(registros)
 
